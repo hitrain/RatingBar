@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, assign) CGFloat starWidth;
+@property (nonatomic, strong) UIPanGestureRecognizer *pan;
 @end
 
 @implementation RatingBar
@@ -38,9 +39,7 @@
     self.userInteractionEnabled = YES;
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
     [self addGestureRecognizer:tap];
-    [self addGestureRecognizer:pan];
     
     //
     CGFloat width = frame.size.width / 7.0;
@@ -56,6 +55,15 @@
         [self.topView addSubview:img2];
     }
     self.enable = YES;
+}
+
+-(void)setPanEnable:(BOOL)panEnable{
+    if (panEnable) {
+        self.pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(pan:)];
+        [self addGestureRecognizer:self.pan];
+    }else{
+        [self removeGestureRecognizer:self.pan];
+    }
 }
 
 - (id)initWithFrame:(CGRect)frame {
